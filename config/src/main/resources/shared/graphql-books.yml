@@ -1,0 +1,48 @@
+server:
+  servlet:
+    context-path: /api/books  
+  port: 6000
+
+security:
+  oauth2:
+    client:
+      clientId: qraphqlbooks-service
+      clientSecret: ${QRAPHQLBOOKS_SERVICE_PASSWORD}
+      accessTokenUri: http://auth-service:5000/uaa/oauth/token
+      grant-type: client_credentials
+      scope: server
+
+graphql:
+  extended-scalars: Date
+  graphiql:
+    mapping: /graphiql
+    enabled: true
+
+hibernate:
+  hbm2ddl:  
+    auto: create-drop
+  show-sql: true
+
+spring:
+  datasource:
+    url: ${POSTGRESBD_URL}
+    username: ${POSTGRESBD_USERNAME}
+    password: ${POSTGRESBD_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+      hbm2ddl:  
+        auto: create-drop
+    # show-sql: true
+    # properties:
+    #   javax:
+    #     persistence:
+    #       schema-generation:
+    #         scripts:
+    #           action: create
+    #           create-target: create.sql
+    #           create-source: metadata
+
+            

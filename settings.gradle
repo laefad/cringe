@@ -12,9 +12,13 @@ rootProject.name = 'piggymetrics'
 
 include(':config')
 include(':account-service')
-include(':monitoring')
-include(':gateway')
-include(':turbine-stream-service')
 include(':auth-service')
-include(':statistics-service')
 include(':registry')
+
+include(':gateway')
+
+include(':graphql-books')
+
+include(':monitoring')
+include(':turbine-stream-service')
+include(':statistics-service')

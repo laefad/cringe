@@ -34,12 +34,12 @@ zuul:
         serviceId: statistics-service
         stripPrefix: false
         sensitiveHeaders:
-
-    # notification-service:
-    #     path: /notifications/**
-    #     serviceId: notification-service
-    #     stripPrefix: false
-    #     sensitiveHeaders:
+    
+    qraphqlbooks-service:
+        path: /api/books**
+        serviceId: qraphqlbooks-service
+        stripPrefix: false
+        sensitiveHeaders:
 
 server:
   port: 4000

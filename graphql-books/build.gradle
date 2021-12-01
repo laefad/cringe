@@ -1,0 +1,53 @@
+
+plugins {
+    id 'org.springframework.boot'
+    id 'io.spring.dependency-management'
+    id 'io.freefair.lombok'
+    id 'application'
+}
+
+repositories {
+    mavenCentral()
+}
+
+group = 'com.laefad'
+version = '0.0.1'
+
+dependencies {
+    implementation 'org.projectlombok:lombok'
+
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.postgresql:postgresql'
+
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+
+	implementation group: 'com.graphql-java', name: 'graphql-spring-boot-starter', version: '5.0.2'
+    implementation group: 'com.graphql-java', name: 'graphql-java-extended-scalars', version: '17.0'
+	// implementation group: 'com.graphql-java', name: 'graphql-java-tools', version: '5.2.4'
+
+    implementation group: 'com.graphql-java-kickstart', name: 'graphql-spring-boot-starter', version: '12.0.0'
+    // implementation group: 'com.graphql-java-kickstart', name: 'graphql-java-servlet', version: '11.0.0'
+    implementation group: 'com.graphql-java-kickstart', name: 'graphql-java-tools', version: '12.0.0'
+
+    implementation 'org.springframework.cloud:spring-cloud-starter-config:2.0.0.RELEASE'
+    implementation 'org.springframework.cloud:spring-cloud-starter-oauth2:2.0.0.RELEASE'
+
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:2.0.0.RELEASE'
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:2.0.0.RELEASE'
+    implementation 'org.springframework.cloud:spring-cloud-starter-sleuth:2.0.0.RELEASE'
+    implementation 'org.springframework.cloud:spring-cloud-starter-bus-amqp:2.0.0.RELEASE'
+    implementation 'org.springframework.cloud:spring-cloud-netflix-hystrix-stream:2.0.0.RELEASE'
+
+    implementation 'com.google.guava:guava:19.0'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+application {
+    mainClass = 'book_service.App'
+}
