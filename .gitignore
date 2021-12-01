@@ -10,6 +10,11 @@
 log/
 target/
 
+#Gradle
+.gradle/
+build/
+buildSrc/
+
 # Eclipse
 **/*.project
 **/*.classpath

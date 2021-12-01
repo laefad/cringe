@@ -1,0 +1,20 @@
+
+pluginManagement {
+  plugins {
+        id 'org.springframework.boot' version "${springVersion}"
+        id 'io.spring.dependency-management' version "${dependencyManagementVersion}"
+        id "io.freefair.lombok" version "${lombokVersion}"
+    }
+}
+
+// bookservice
+rootProject.name = 'piggymetrics'
+
+include(':config')
+include(':account-service')
+include(':monitoring')
+include(':gateway')
+include(':turbine-stream-service')
+include(':auth-service')
+include(':statistics-service')
+include(':registry')

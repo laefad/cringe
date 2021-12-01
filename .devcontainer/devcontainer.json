@@ -11,7 +11,7 @@
 			"VARIANT": "17",
 			// Options
 			"INSTALL_MAVEN": "true",
-			"INSTALL_GRADLE": "false",
+			"INSTALL_GRADLE": "true",
 			"NODE_VERSION": "none"
 		}
 	},
@@ -23,7 +23,8 @@
 	
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
-		"vscjava.vscode-java-pack"
+		"vscjava.vscode-java-pack",
+		"naco-siren.gradle-language"
 	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
