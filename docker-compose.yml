@@ -173,6 +173,10 @@ services:
       POSTGRESBD_USERNAME: $POSTGRESBD_USERNAME
       POSTGRESBD_PASSWORD: $POSTGRESBD_PASSWORD
       POSTGRESBD_URL: $POSTGRESBD_URL
+      CONFIG_SERVICE_ADDRESS: 'http://config:8888'
+      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+      CONFIG_SERVICE_USER: 'user'
+      APP_NAME: 'qraphqlbooks-service'
     build:
       context: .
       target: prod
