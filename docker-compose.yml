@@ -174,8 +174,9 @@ services:
       POSTGRESBD_PASSWORD: $POSTGRESBD_PASSWORD
       POSTGRESBD_URL: $POSTGRESBD_URL
     build:
-      context: graphql-books
+      context: .
       target: prod
+      dockerfile: ./graphql-books/Dockerfile
     restart: always
     depends_on:
       config:
@@ -199,4 +200,8 @@ services:
       PGPASSWORD: $POSTGRESBD_PASSWORD
     ports:
       - 5432:5432
+
+volumes:
+  postgres-source:
+    name: postgres-source
     
