@@ -3,12 +3,8 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/laefad/cringe/tree/master/config/src/main/resources/shared
+          uri: https://github.com/laefad/configuration_repository
           skipSslValidation: true
-        # native:
-        #   search-locations: https://github.com/laefad/cringe/tree/master/config/src/main/resources/shared # classpath:resources/shared/
-  # profiles:
-  #    active: native
   security:
     user:
       password: ${CONFIG_SERVICE_PASSWORD}

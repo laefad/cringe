@@ -11,8 +11,6 @@ repositories {
 
 group = 'com.laefad'
 version = '0.0.1'
-// name = 'config'
-// description = 'configuration host microservice'
 
 dependencies {
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-config-server', version: "${springCloudConfigServerVersion}"

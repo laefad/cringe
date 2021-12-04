@@ -22,7 +22,6 @@ COPY --chown=gradle:gradle ../gradle.properties /home/gradle/src/gradle.properti
 WORKDIR /home/gradle/src
 
 RUN gradle bootJar -i --stacktrace
-# RUN gradle clean build --stacktrace
 
 FROM openjdk:17-jdk-oracle as prod
 
