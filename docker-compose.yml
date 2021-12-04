@@ -57,7 +57,7 @@ services:
       MONGODB_PASSWORD: $MONGODB_PASSWORD
       CONFIG_SERVICE_ADDRESS: $CONFIG_SERVICE_ADDRESS
       CONFIG_SERVICE_USER: $CONFIG_SERVICE_USER
-      APP_NAME: 'auth-service'
+      APP_NAME: auth-service
     restart: always
     depends_on:
       config:
