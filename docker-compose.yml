@@ -9,6 +9,7 @@ services:
 
   config:
     image: laefad/bookservice-config
+    container_name: config
     build:
       context: .
       target: prod
@@ -18,6 +19,29 @@ services:
     environment:
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
     restart: always
+
+  auth-service:
+    image: laefad/bookservice-auth-service
+    container_name: auth-service
+    build:
+      context: .
+      target: prod
+      dockerfile: ./auth-service/Dockerfile
+    ports:
+      - "${AUTH_SERVICE_PORT}:8000"
+    environment:
+      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+      # NOTIFICATION_SERVICE_PASSWORD: $NOTIFICATION_SERVICE_PASSWORD
+      # STATISTICS_SERVICE_PASSWORD: $STATISTICS_SERVICE_PASSWORD
+      ACCOUNT_SERVICE_PASSWORD: $ACCOUNT_SERVICE_PASSWORD
+      MONGODB_PASSWORD: $MONGODB_PASSWORD
+      CONFIG_SERVICE_ADDRESS: $CONFIG_SERVICE_ADDRESS
+      CONFIG_SERVICE_USER: $CONFIG_SERVICE_USER
+      APP_NAME: auth-service
+    restart: always
+    depends_on:
+      config:
+        condition: service_healthy
 
   registry:
     environment:
@@ -40,28 +64,6 @@ services:
         condition: service_healthy
     ports:
       - 80:4000
-
-  auth-service:
-    image: laefad/bookservice-auth-service
-    build:
-      context: .
-      target: prod
-      dockerfile: ./auth-service/Dockerfile
-    ports:
-      - "${AUTH_SERVICE_PORT}:8000"
-    environment:
-      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
-      NOTIFICATION_SERVICE_PASSWORD: $NOTIFICATION_SERVICE_PASSWORD
-      STATISTICS_SERVICE_PASSWORD: $STATISTICS_SERVICE_PASSWORD
-      ACCOUNT_SERVICE_PASSWORD: $ACCOUNT_SERVICE_PASSWORD
-      MONGODB_PASSWORD: $MONGODB_PASSWORD
-      CONFIG_SERVICE_ADDRESS: $CONFIG_SERVICE_ADDRESS
-      CONFIG_SERVICE_USER: $CONFIG_SERVICE_USER
-      APP_NAME: auth-service
-    restart: always
-    depends_on:
-      config:
-        condition: service_healthy
 
   auth-mongodb:
     environment:
