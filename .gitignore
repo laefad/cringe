@@ -19,3 +19,6 @@ buildSrc/
 **/*.project
 **/*.classpath
 **/*.settings
+
+#temp files 
+temp/

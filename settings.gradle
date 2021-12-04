@@ -7,8 +7,8 @@ pluginManagement {
     }
 }
 
-// bookservice
-rootProject.name = 'piggymetrics'
+// piggymetrics
+rootProject.name = 'bookservice'
 
 include(':config')
 include(':account-service')

@@ -2,14 +2,17 @@ spring:
   cloud:
     config:
       server:
-        native:
-          search-locations: classpath:/shared
-  profiles:
-     active: native
+        git:
+          uri: https://github.com/laefad/cringe/tree/master/config/src/main/resources/shared
+          skipSslValidation: true
+        # native:
+        #   search-locations: https://github.com/laefad/cringe/tree/master/config/src/main/resources/shared # classpath:resources/shared/
+  # profiles:
+  #    active: native
   security:
     user:
       password: ${CONFIG_SERVICE_PASSWORD}
 
 server:
-  port: 8888
+  port: 8000
 

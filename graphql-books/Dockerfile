@@ -8,7 +8,7 @@ WORKDIR /home/gradle/src
 
 RUN gradle clean build --daemon --stacktrace
 
-FROM openjdk:16-alpine as prod
+FROM openjdk:17-jdk-oracle as prod
 
 RUN mkdir /app
 RUN mkdir /app/external
@@ -18,4 +18,4 @@ COPY --from=build /home/gradle/src/build/resources /app/resources
 
 ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "-Dspring.profiles.active=prod", "/app/spring-boot-application.jar"]
 
-EXPOSE 6000
+EXPOSE 8000

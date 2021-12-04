@@ -1,4 +1,0 @@
-Добавить проброс паролей в docker compose
-При создании микросервиса, регестри ровать его в OAuth2AuthorizationConfig в auth-service
-
-Добавить файл для инициализации postgre 

@@ -1,9 +1,39 @@
-FROM java:8-jre
-MAINTAINER Alexander Lukyanchikov <sqshq@sqshq.com>
+FROM gradle:latest AS cache
 
-ADD ./target/config.jar /app/
-CMD ["java", "-Xmx200m", "-jar", "/app/config.jar"]
+COPY --chown=gradle:gradle ./config/build.gradle /home/gradle/src/build.gradle
+COPY --chown=gradle:gradle ../settings.gradle /home/gradle/src/settings.gradle
+COPY --chown=gradle:gradle ../gradle.properties /home/gradle/src/gradle.properties
 
-HEALTHCHECK --interval=30s --timeout=30s CMD curl -f http://localhost:8888/actuator/health || exit 1
+RUN mkdir -p /home/gradle/cache_home
+ENV GRADLE_USER_HOME /home/gradle/cache_home
 
-EXPOSE 8888
+WORKDIR /home/gradle/src
+
+RUN gradle clean build -i --stacktrace
+
+FROM gradle:latest AS build
+
+COPY --from=cache /home/gradle/cache_home /home/gradle/.gradle
+
+COPY --chown=gradle:gradle ./config /home/gradle/src
+COPY --chown=gradle:gradle ../settings.gradle /home/gradle/src/settings.gradle
+COPY --chown=gradle:gradle ../gradle.properties /home/gradle/src/gradle.properties
+
+WORKDIR /home/gradle/src
+
+RUN gradle bootJar -i --stacktrace
+# RUN gradle clean build --stacktrace
+
+FROM openjdk:17-jdk-oracle as prod
+
+RUN mkdir /app
+RUN mkdir /app/resources
+
+COPY --from=build /home/gradle/src/build/libs/*.jar /app/spring-boot-application.jar
+COPY --from=build /home/gradle/src/build/resources /app/resources
+
+ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "-Dspring.profiles.active=prod", "/app/spring-boot-application.jar"]
+
+HEALTHCHECK --interval=30s --timeout=30s CMD curl -f http://localhost:8000/actuator/health || exit 1
+
+EXPOSE 8000

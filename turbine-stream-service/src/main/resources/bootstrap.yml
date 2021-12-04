@@ -1,9 +1,9 @@
 spring:
   application:
-    name: turbine-stream-service
+    name: ${APP_NAME}
   cloud:
     config:
-      uri: http://config:8888
+      uri: ${CONFIG_SERVICE_ADDRESS}
       fail-fast: true
       password: ${CONFIG_SERVICE_PASSWORD}
-      username: user
+      username: ${CONFIG_SERVICE_USER}

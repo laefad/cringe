@@ -1,5 +1,4 @@
-FROM java:8-jre
-MAINTAINER Alexander Lukyanchikov <sqshq@sqshq.com>
+FROM openjdk:17-jdk-oracle
 
 ADD ./target/account-service.jar /app/
 CMD ["java", "-Xmx200m", "-jar", "/app/account-service.jar"]
