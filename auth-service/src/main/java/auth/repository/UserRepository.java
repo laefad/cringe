@@ -1,6 +1,7 @@
-package com.piggymetrics.auth.repository;
+package auth.repository;
 
-import com.piggymetrics.auth.domain.User;
+import auth.model.User;
+
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

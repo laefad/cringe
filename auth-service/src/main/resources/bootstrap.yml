@@ -1,9 +1,12 @@
 spring:
   application:
-    name: auth-service
+    name: ${APP_NAME}
+  config:
+    import: "configserver:${CONFIG_SERVICE_ADDRESS}"
   cloud:
     config:
-      uri: http://config:8888
+      enabled: true
+      uri: ${CONFIG_SERVICE_ADDRESS}
       fail-fast: true
       password: ${CONFIG_SERVICE_PASSWORD}
-      username: user
+      username: ${CONFIG_SERVICE_USER}

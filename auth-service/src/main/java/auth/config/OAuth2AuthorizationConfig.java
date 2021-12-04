@@ -1,6 +1,7 @@
-package com.piggymetrics.auth.config;
+package auth.config;
 
-import com.piggymetrics.auth.service.security.MongoUserDetailsService;
+import auth.service.security.MongoUserDetailsService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
@@ -15,9 +16,6 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 
-/**
- * @author cdov
- */
 @Configuration
 @EnableAuthorizationServer
 public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdapter {
@@ -40,7 +38,6 @@ public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
 
         // TODO persist clients details
 
-        // @formatter:off
         clients.inMemory()
                 .withClient("browser")
                 .authorizedGrantTypes("refresh_token", "password")
@@ -65,7 +62,6 @@ public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
                 .secret(env.getProperty("QRAPHQLBOOKS_SERVICE_PASSWORD"))
                 .authorizedGrantTypes("client_credentials", "refresh_token")
                 .scopes("server");
-        // @formatter:on
     }
 
     @Override

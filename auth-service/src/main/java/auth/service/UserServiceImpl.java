@@ -1,7 +1,8 @@
-package com.piggymetrics.auth.service;
+package auth.service;
 
-import com.piggymetrics.auth.domain.User;
-import com.piggymetrics.auth.repository.UserRepository;
+import auth.model.User;
+import auth.repository.UserRepository;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

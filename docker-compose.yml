@@ -42,13 +42,22 @@ services:
       - 80:4000
 
   auth-service:
+    image: laefad/bookservice-auth-service
+    build:
+      context: .
+      target: prod
+      dockerfile: ./auth-service/Dockerfile
+    ports:
+      - "${AUTH_SERVICE_PORT}:8000"
     environment:
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
       NOTIFICATION_SERVICE_PASSWORD: $NOTIFICATION_SERVICE_PASSWORD
       STATISTICS_SERVICE_PASSWORD: $STATISTICS_SERVICE_PASSWORD
       ACCOUNT_SERVICE_PASSWORD: $ACCOUNT_SERVICE_PASSWORD
       MONGODB_PASSWORD: $MONGODB_PASSWORD
-    image: sqshq/piggymetrics-auth-service
+      CONFIG_SERVICE_ADDRESS: $CONFIG_SERVICE_ADDRESS
+      CONFIG_SERVICE_USER: $CONFIG_SERVICE_USER
+      APP_NAME: 'auth-service'
     restart: always
     depends_on:
       config:
@@ -114,9 +123,9 @@ services:
 
   turbine-stream-service:
     environment:
-      CONFIG_SERVICE_ADDRESS: 'http://config:8888'
+      CONFIG_SERVICE_ADDRESS: $CONFIG_SERVICE_ADDRESS
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
-      CONFIG_SERVICE_USER: 'user'
+      CONFIG_SERVICE_USER: $CONFIG_SERVICE_USER
       APP_NAME: 'turbine-stream-service'
     image: sqshq/piggymetrics-turbine-stream-service
     restart: always
@@ -131,9 +140,9 @@ services:
       POSTGRESBD_USERNAME: $POSTGRESBD_USERNAME
       POSTGRESBD_PASSWORD: $POSTGRESBD_PASSWORD
       POSTGRESBD_URL: $POSTGRESBD_URL
-      CONFIG_SERVICE_ADDRESS: 'http://config:8888'
+      CONFIG_SERVICE_ADDRESS: $CONFIG_SERVICE_ADDRESS
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
-      CONFIG_SERVICE_USER: 'user'
+      CONFIG_SERVICE_USER: $CONFIG_SERVICE_USER
       APP_NAME: 'qraphqlbooks-service'
     build:
       context: .
