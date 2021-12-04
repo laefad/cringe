@@ -58,7 +58,7 @@ public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
                 .authorizedGrantTypes("client_credentials", "refresh_token")
                 .scopes("server")
                 .and()
-                .withClient("qraphqlbooks-service")
+                .withClient("graphql-books-service")
                 .secret(env.getProperty("QRAPHQLBOOKS_SERVICE_PASSWORD"))
                 .authorizedGrantTypes("client_credentials", "refresh_token")
                 .scopes("server");

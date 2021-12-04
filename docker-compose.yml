@@ -135,7 +135,7 @@ services:
     ports:
     - 8989:8989
 
-  graphql-books-sevice:
+  graphql-books-service:
     environment:
       POSTGRESBD_USERNAME: $POSTGRESBD_USERNAME
       POSTGRESBD_PASSWORD: $POSTGRESBD_PASSWORD
@@ -143,11 +143,11 @@ services:
       CONFIG_SERVICE_ADDRESS: $CONFIG_SERVICE_ADDRESS
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
       CONFIG_SERVICE_USER: $CONFIG_SERVICE_USER
-      APP_NAME: 'qraphqlbooks-service'
+      APP_NAME: 'qraphql-books-service'
     build:
       context: .
       target: prod
-      dockerfile: ./graphql-books/Dockerfile
+      dockerfile: ./graphql-books-service/Dockerfile
     restart: always
     depends_on:
       config:

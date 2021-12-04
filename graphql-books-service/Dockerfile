@@ -1,6 +1,6 @@
 FROM gradle:latest AS build
 
-COPY --chown=gradle:gradle ./graphql-books /home/gradle/src
+COPY --chown=gradle:gradle ./graphql-books-service /home/gradle/src
 COPY --chown=gradle:gradle ../settings.gradle /home/gradle/src/settings.gradle
 COPY --chown=gradle:gradle ../gradle.properties /home/gradle/src/gradle.properties
 
