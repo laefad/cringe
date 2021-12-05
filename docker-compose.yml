@@ -17,6 +17,7 @@ services:
     ports:
       - "${CONFIG_PORT}:8000"
     environment:
+      CONFIG_SERVICE_USER: $CONFIG_SERVICE_USER
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
     restart: always
 

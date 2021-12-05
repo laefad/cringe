@@ -13,7 +13,10 @@ group = 'com.laefad'
 version = '0.0.1'
 
 dependencies {
-    implementation 'org.springframework.cloud:spring-cloud-config-server:3.0.3'
+    implementation platform("org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}")
+
+    implementation 'org.springframework.cloud:spring-cloud-starter-config'
+    implementation 'org.springframework.cloud:spring-cloud-config-server'
     // implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap:3.0.3'
     implementation 'org.springframework.boot:spring-boot-starter-security'
 }

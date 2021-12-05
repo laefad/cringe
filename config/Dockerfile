@@ -34,5 +34,3 @@ COPY --from=build /home/gradle/src/build/resources /app/resources
 ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "-Dspring.profiles.active=prod", "/app/spring-boot-application.jar"]
 
 HEALTHCHECK --interval=10s --timeout=5s CMD curl -f http://localhost:8000/actuator/health || exit 1
-
-EXPOSE 8000
