@@ -26,30 +26,30 @@ services:
     ports:
       - 25000:27017
 
-  account-service:
-    build: account-service
-    ports:
-      - 6000:6000
+  # account-service:
+  #   build: account-service
+  #   ports:
+  #     - 6000:6000
 
-  account-mongodb:
-    build: mongodb
-    ports:
-      - 26000:27017
+  # account-mongodb:
+  #   build: mongodb
+  #   ports:
+  #     - 26000:27017
 
-  statistics-service:
-    build: statistics-service
-    ports:
-      - 7000:7000
+  # statistics-service:
+  #   build: statistics-service
+  #   ports:
+  #     - 7000:7000
 
-  statistics-mongodb:
-    build: mongodb
-    ports:
-      - 27000:27017
+  # statistics-mongodb:
+  #   build: mongodb
+  #   ports:
+  #     - 27000:27017
 
-  notification-mongodb:
-    build: mongodb
-    ports:
-      - 28000:27017
+  # notification-mongodb:
+  #   build: mongodb
+  #   ports:
+  #     - 28000:27017
 
   monitoring:
     build: monitoring

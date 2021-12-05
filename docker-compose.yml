@@ -20,6 +20,11 @@ services:
       CONFIG_SERVICE_USER: $CONFIG_SERVICE_USER
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
     restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '0.3'
+          memory: 500M
 
   auth-service:
     image: laefad/bookservice-auth-service
@@ -42,6 +47,11 @@ services:
     depends_on:
       config:
         condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          cpus: '0.3'
+          memory: 500M
 
   registry:
     image: laefad/bookservice-registry
@@ -60,6 +70,11 @@ services:
     depends_on:
       config:
         condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          cpus: '0.3'
+          memory: 500M
 
   gateway:
     image: laefad/bookservice-gateway
@@ -78,6 +93,11 @@ services:
     depends_on:
       config:
         condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          cpus: '0.3'
+          memory: 500M
 
   auth-mongodb:
     environment:
