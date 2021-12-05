@@ -14,8 +14,8 @@ services:
       context: .
       target: prod
       dockerfile: ./config/Dockerfile
-    ports:
-      - "${CONFIG_PORT}:8000"
+    # ports:
+    #   - "${CONFIG_PORT}:8000"
     environment:
       CONFIG_SERVICE_USER: $CONFIG_SERVICE_USER
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
@@ -28,32 +28,38 @@ services:
       context: .
       target: prod
       dockerfile: ./auth-service/Dockerfile
-    ports:
-      - "${AUTH_SERVICE_PORT}:8000"
+    # ports:
+    #   - "${AUTH_SERVICE_PORT}:8000"
     environment:
+      CONFIG_SERVICE_ADDRESS: $CONFIG_SERVICE_ADDRESS
+      CONFIG_SERVICE_USER: $CONFIG_SERVICE_USER
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
       # NOTIFICATION_SERVICE_PASSWORD: $NOTIFICATION_SERVICE_PASSWORD
       # STATISTICS_SERVICE_PASSWORD: $STATISTICS_SERVICE_PASSWORD
-      ACCOUNT_SERVICE_PASSWORD: $ACCOUNT_SERVICE_PASSWORD
+      # ACCOUNT_SERVICE_PASSWORD: $ACCOUNT_SERVICE_PASSWORD
       MONGODB_PASSWORD: $MONGODB_PASSWORD
-      CONFIG_SERVICE_ADDRESS: $CONFIG_SERVICE_ADDRESS
-      CONFIG_SERVICE_USER: $CONFIG_SERVICE_USER
-      APP_NAME: auth-service
     restart: always
     depends_on:
       config:
         condition: service_healthy
 
   registry:
-    environment:
-      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
-    image: sqshq/piggymetrics-registry
+    image: laefad/bookservice-registry
+    container_name: registry
+    build:
+      context: .
+      target: prod
+      dockerfile: ./registry/Dockerfile
     restart: always
+    # ports:
+    #   - 8761:8000
+    environment:
+      CONFIG_SERVICE_ADDRESS: $CONFIG_SERVICE_ADDRESS
+      CONFIG_SERVICE_USER: $CONFIG_SERVICE_USER
+      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
     depends_on:
       config:
         condition: service_healthy
-    ports:
-      - 8761:8761
 
   gateway:
     environment:
