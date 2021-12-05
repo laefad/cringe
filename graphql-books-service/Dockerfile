@@ -17,5 +17,3 @@ COPY --from=build /home/gradle/src/build/libs/*.jar /app/spring-boot-application
 COPY --from=build /home/gradle/src/build/resources /app/resources
 
 ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "-Dspring.profiles.active=prod", "/app/spring-boot-application.jar"]
-
-EXPOSE 8000

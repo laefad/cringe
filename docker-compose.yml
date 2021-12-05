@@ -62,15 +62,22 @@ services:
         condition: service_healthy
 
   gateway:
-    environment:
-      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
-    image: sqshq/piggymetrics-gateway
+    image: laefad/bookservice-gateway
+    container_name: gateway
+    build:
+      context: .
+      target: prod
+      dockerfile: ./gateway/Dockerfile
     restart: always
+    ports:
+      - 80:8000
+    environment:
+      CONFIG_SERVICE_ADDRESS: $CONFIG_SERVICE_ADDRESS
+      CONFIG_SERVICE_USER: $CONFIG_SERVICE_USER
+      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
     depends_on:
       config:
         condition: service_healthy
-    ports:
-      - 80:4000
 
   auth-mongodb:
     environment:
@@ -78,46 +85,46 @@ services:
     image: sqshq/piggymetrics-mongodb
     restart: always
 
-  account-service:
-    environment:
-      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
-      ACCOUNT_SERVICE_PASSWORD: $ACCOUNT_SERVICE_PASSWORD
-      MONGODB_PASSWORD: $MONGODB_PASSWORD
-    image: sqshq/piggymetrics-account-service
-    restart: always
-    depends_on:
-      config:
-        condition: service_healthy
+  # account-service:
+  #   environment:
+  #     CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+  #     ACCOUNT_SERVICE_PASSWORD: $ACCOUNT_SERVICE_PASSWORD
+  #     MONGODB_PASSWORD: $MONGODB_PASSWORD
+  #   image: sqshq/piggymetrics-account-service
+  #   restart: always
+  #   depends_on:
+  #     config:
+  #       condition: service_healthy
 
-  account-mongodb:
-    environment:
-      INIT_DUMP: account-service-dump.js
-      MONGODB_PASSWORD: $MONGODB_PASSWORD
-    image: sqshq/piggymetrics-mongodb
-    restart: always
+  # account-mongodb:
+  #   environment:
+  #     INIT_DUMP: account-service-dump.js
+  #     MONGODB_PASSWORD: $MONGODB_PASSWORD
+  #   image: sqshq/piggymetrics-mongodb
+  #   restart: always
 
-  statistics-service:
-    environment:
-      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
-      MONGODB_PASSWORD: $MONGODB_PASSWORD
-      STATISTICS_SERVICE_PASSWORD: $STATISTICS_SERVICE_PASSWORD
-    image: sqshq/piggymetrics-statistics-service
-    restart: always
-    depends_on:
-      config:
-        condition: service_healthy
+  # statistics-service:
+  #   environment:
+  #     CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+  #     MONGODB_PASSWORD: $MONGODB_PASSWORD
+  #     STATISTICS_SERVICE_PASSWORD: $STATISTICS_SERVICE_PASSWORD
+  #   image: sqshq/piggymetrics-statistics-service
+  #   restart: always
+  #   depends_on:
+  #     config:
+  #       condition: service_healthy
 
-  statistics-mongodb:
-    environment:
-      MONGODB_PASSWORD: $MONGODB_PASSWORD
-    image: sqshq/piggymetrics-mongodb
-    restart: always
+  # statistics-mongodb:
+  #   environment:
+  #     MONGODB_PASSWORD: $MONGODB_PASSWORD
+  #   image: sqshq/piggymetrics-mongodb
+  #   restart: always
 
-  notification-mongodb:
-    image: sqshq/piggymetrics-mongodb
-    restart: always
-    environment:
-      MONGODB_PASSWORD: $MONGODB_PASSWORD
+  # notification-mongodb:
+  #   image: sqshq/piggymetrics-mongodb
+  #   restart: always
+  #   environment:
+  #     MONGODB_PASSWORD: $MONGODB_PASSWORD
 
   monitoring:
     environment:
@@ -127,22 +134,21 @@ services:
     depends_on:
       config:
         condition: service_healthy
-    ports:
-      - 9000:8080
+    # ports:
+    #   - 9000:8080
 
   turbine-stream-service:
     environment:
       CONFIG_SERVICE_ADDRESS: $CONFIG_SERVICE_ADDRESS
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
       CONFIG_SERVICE_USER: $CONFIG_SERVICE_USER
-      APP_NAME: 'turbine-stream-service'
     image: sqshq/piggymetrics-turbine-stream-service
     restart: always
     depends_on:
       config:
         condition: service_healthy
-    ports:
-    - 8989:8989
+    # ports:
+    # - 8989:8989
 
   graphql-books-service:
     environment:
@@ -152,7 +158,6 @@ services:
       CONFIG_SERVICE_ADDRESS: $CONFIG_SERVICE_ADDRESS
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
       CONFIG_SERVICE_USER: $CONFIG_SERVICE_USER
-      APP_NAME: 'qraphql-books-service'
     build:
       context: .
       target: prod
@@ -161,8 +166,6 @@ services:
     depends_on:
       config:
         condition: service_healthy
-    ports:
-    - "${GRAPHQL_BOOKS_PORT}:8000"
 
   postgres:
     container_name: postgres
