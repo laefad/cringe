@@ -102,15 +102,27 @@ services:
           memory: 500M
 
   monitoring:
-    environment:
-      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
-    image: sqshq/piggymetrics-monitoring
+    image: laefad/bookservice-monitoring
+    container_name: monitoring
+    build:
+      context: .
+      target: prod
+      dockerfile: ./monitoring/Dockerfile
     restart: always
+    ports:
+      - 9000:8000
+    environment:
+      CONFIG_SERVICE_ADDRESS: $CONFIG_SERVICE_ADDRESS
+      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+      CONFIG_SERVICE_USER: $CONFIG_SERVICE_USER
     depends_on:
       config:
         condition: service_healthy
-    # ports:
-    #   - 9000:8080
+    deploy:
+      resources:
+        limits:
+          cpus: '0.3'
+          memory: 500M
 
   turbine-stream-service:
     environment:
