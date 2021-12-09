@@ -1,6 +1,6 @@
 package auth.config;
 
-import auth.service.security.MongoUserDetailsService;
+import auth.service.security.UserDetailsServiceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -16,7 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private MongoUserDetailsService userDetailsService;
+    private UserDetailsServiceImpl userDetailsService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

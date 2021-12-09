@@ -1,6 +1,6 @@
 package auth.config;
 
-import auth.service.security.MongoUserDetailsService;
+import auth.service.security.UserDetailsServiceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -28,7 +28,7 @@ public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private MongoUserDetailsService userDetailsService;
+    private UserDetailsServiceImpl userDetailsService;
 
     @Autowired
     private Environment env;

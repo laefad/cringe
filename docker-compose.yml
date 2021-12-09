@@ -39,14 +39,16 @@ services:
       CONFIG_SERVICE_ADDRESS: $CONFIG_SERVICE_ADDRESS
       CONFIG_SERVICE_USER: $CONFIG_SERVICE_USER
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
-      # NOTIFICATION_SERVICE_PASSWORD: $NOTIFICATION_SERVICE_PASSWORD
-      # STATISTICS_SERVICE_PASSWORD: $STATISTICS_SERVICE_PASSWORD
-      # ACCOUNT_SERVICE_PASSWORD: $ACCOUNT_SERVICE_PASSWORD
-      MONGODB_PASSWORD: $MONGODB_PASSWORD
+      POSTGRESBD_USERNAME: $POSTGRESBD_USERNAME
+      POSTGRESBD_PASSWORD: $POSTGRESBD_PASSWORD
+      POSTGRESBD_URL: $POSTGRESBD_URL
+      QRAPHQLBOOKS_SERVICE_PASSWORD: $QRAPHQLBOOKS_SERVICE_PASSWORD
     restart: always
     depends_on:
       config:
         condition: service_healthy
+      postgres: 
+        condition: service_started
     deploy:
       resources:
         limits:
@@ -99,53 +101,6 @@ services:
           cpus: '0.3'
           memory: 500M
 
-  auth-mongodb:
-    environment:
-      MONGODB_PASSWORD: $MONGODB_PASSWORD
-    image: sqshq/piggymetrics-mongodb
-    restart: always
-
-  # account-service:
-  #   environment:
-  #     CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
-  #     ACCOUNT_SERVICE_PASSWORD: $ACCOUNT_SERVICE_PASSWORD
-  #     MONGODB_PASSWORD: $MONGODB_PASSWORD
-  #   image: sqshq/piggymetrics-account-service
-  #   restart: always
-  #   depends_on:
-  #     config:
-  #       condition: service_healthy
-
-  # account-mongodb:
-  #   environment:
-  #     INIT_DUMP: account-service-dump.js
-  #     MONGODB_PASSWORD: $MONGODB_PASSWORD
-  #   image: sqshq/piggymetrics-mongodb
-  #   restart: always
-
-  # statistics-service:
-  #   environment:
-  #     CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
-  #     MONGODB_PASSWORD: $MONGODB_PASSWORD
-  #     STATISTICS_SERVICE_PASSWORD: $STATISTICS_SERVICE_PASSWORD
-  #   image: sqshq/piggymetrics-statistics-service
-  #   restart: always
-  #   depends_on:
-  #     config:
-  #       condition: service_healthy
-
-  # statistics-mongodb:
-  #   environment:
-  #     MONGODB_PASSWORD: $MONGODB_PASSWORD
-  #   image: sqshq/piggymetrics-mongodb
-  #   restart: always
-
-  # notification-mongodb:
-  #   image: sqshq/piggymetrics-mongodb
-  #   restart: always
-  #   environment:
-  #     MONGODB_PASSWORD: $MONGODB_PASSWORD
-
   monitoring:
     environment:
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
@@ -186,6 +141,8 @@ services:
     depends_on:
       config:
         condition: service_healthy
+      postgres: 
+        condition: service_started
 
   postgres:
     container_name: postgres

@@ -1,6 +1,6 @@
 spring:
   application:
-    name: qraphql-books-service
+    name: graphql-books-service
   cloud:
     config:
       uri: ${CONFIG_SERVICE_ADDRESS}

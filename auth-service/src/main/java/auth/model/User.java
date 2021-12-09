@@ -1,41 +1,39 @@
 package auth.model;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import lombok.*;
+import lombok.experimental.FieldDefaults;
+
 import java.util.List;
 
-@Document(collection = "users")
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "userSecurityEntity")
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@AllArgsConstructor(access = AccessLevel.PUBLIC)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
+@Builder
+@Getter
+@Setter
+@ToString
 public class User implements UserDetails {
 
 	@Id
-	private String username;
+    @Column(nullable = false, unique = true)
+    String username;
 
-	private String password;
-
-	@Override
-	public String getPassword() {
-		return password;
-	}
-
-	@Override
-	public String getUsername() {
-		return username;
-	}
+    @Column(nullable = false)
+    String password;
 
 	@Override
 	public List<GrantedAuthority> getAuthorities() {
 		return null;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 	@Override

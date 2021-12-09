@@ -18,13 +18,13 @@ dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
-
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    // implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    // DATABASE
 
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.postgresql:postgresql'
-
-    implementation 'org.springframework.boot:spring-boot-starter-security'
 
     // GRAPH QL
 
@@ -37,16 +37,19 @@ dependencies {
     implementation group: 'com.graphql-java-kickstart', name: 'graphql-java-tools', version: '12.0.0'
 
     // MICROSERVICE 
+    implementation platform("org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}")
 
-    implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap:3.0.3'
-    implementation 'org.springframework.cloud:spring-cloud-starter-config:3.0.3'
+    implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
+    implementation 'org.springframework.cloud:spring-cloud-starter-config'
+    implementation 'org.springframework.cloud:spring-cloud-config-client'
     
     implementation 'org.springframework.cloud:spring-cloud-starter-oauth2:2.2.5.RELEASE'
 
-    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:3.0.3'
-    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:3.0.3'
-    implementation 'org.springframework.cloud:spring-cloud-starter-sleuth:3.0.3'
-    implementation 'org.springframework.cloud:spring-cloud-starter-bus-amqp:3.0.3'
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+    implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
+    implementation 'org.springframework.cloud:spring-cloud-starter-bus-amqp'
+
     implementation 'org.springframework.cloud:spring-cloud-netflix-hystrix-stream:2.2.10.RELEASE'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
