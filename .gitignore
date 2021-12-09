@@ -20,5 +20,8 @@ buildSrc/
 **/*.classpath
 **/*.settings
 
+#??
+bin/
+
 #temp files 
 temp/
