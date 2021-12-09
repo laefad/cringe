@@ -2,10 +2,16 @@ version: '3'
 
 services:
   rabbitmq:
+    container_name: rabbitmq
     image: rabbitmq:3-management
     restart: always
     ports:
       - 15672:15672
+    deploy:
+      resources:
+        limits:
+          cpus: '0.3'
+          memory: 500M
 
   config:
     image: laefad/bookservice-config
@@ -63,8 +69,8 @@ services:
       target: prod
       dockerfile: ./registry/Dockerfile
     restart: always
-    # ports:
-    #   - 8761:8000
+    ports:
+      - 8761:8000
     environment:
       CONFIG_SERVICE_ADDRESS: $CONFIG_SERVICE_ADDRESS
       CONFIG_SERVICE_USER: $CONFIG_SERVICE_USER
@@ -118,6 +124,8 @@ services:
     depends_on:
       config:
         condition: service_healthy
+      turbine-stream-service: 
+        condition: service_started
     deploy:
       resources:
         limits:
@@ -125,19 +133,38 @@ services:
           memory: 500M
 
   turbine-stream-service:
+    image: laefad/bookservice-turbine-stream-service
+    container_name: turbine-stream-service
+    build:
+      context: .
+      target: prod
+      dockerfile: ./turbine-stream-service/Dockerfile
+    restart: always
     environment:
       CONFIG_SERVICE_ADDRESS: $CONFIG_SERVICE_ADDRESS
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
       CONFIG_SERVICE_USER: $CONFIG_SERVICE_USER
-    image: sqshq/piggymetrics-turbine-stream-service
-    restart: always
     depends_on:
       config:
         condition: service_healthy
-    # ports:
-    # - 8989:8989
+      rabbitmq: 
+        condition: service_started
+    deploy:
+      resources:
+        limits:
+          cpus: '0.3'
+          memory: 500M
+    ports:
+      - 8989:8000
 
   graphql-books-service:
+    image: laefad/bookservice-graphql-books-service
+    container_name: graphql-books-service
+    build:
+      context: .
+      target: prod
+      dockerfile: ./graphql-books-service/Dockerfile
+    restart: always
     environment:
       POSTGRESBD_USERNAME: $POSTGRESBD_USERNAME
       POSTGRESBD_PASSWORD: $POSTGRESBD_PASSWORD
@@ -146,16 +173,16 @@ services:
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
       CONFIG_SERVICE_USER: $CONFIG_SERVICE_USER
       GRAPHQL_BOOKS_SERVICE_PASSWORD: $GRAPHQL_BOOKS_SERVICE_PASSWORD
-    build:
-      context: .
-      target: prod
-      dockerfile: ./graphql-books-service/Dockerfile
-    restart: always
     depends_on:
       config:
         condition: service_healthy
       postgres: 
         condition: service_started
+    deploy:
+      resources:
+        limits:
+          cpus: '0.3'
+          memory: 500M
 
   postgres:
     container_name: postgres
@@ -169,6 +196,11 @@ services:
       PGPASSWORD: $POSTGRESBD_PASSWORD
     ports:
       - 5432:5432
+    deploy:
+      resources:
+        limits:
+          cpus: '0.3'
+          memory: 500M
 
 volumes:
   postgres-source:
