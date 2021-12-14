@@ -8,6 +8,9 @@ plugins {
 
 repositories {
     mavenCentral()
+    maven { 
+        url 'https://repo.spring.io/plugins-release' 
+    }
 }
 
 group = 'com.laefad'
@@ -21,11 +24,16 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     // implementation 'org.springframework.boot:spring-boot-starter-security'
 
-    implementation 'org.springframework.boot:spring-boot-starter-json:2.6.1'
+    implementation 'org.springframework.boot:spring-boot-starter-json'
 
     // DATABASE
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.postgresql:postgresql'
+
+    //GRAPHQL 
+    implementation 'org.springframework.experimental:graphql-spring-boot-starter:1.0.0-M3'
+    implementation 'com.graphql-java:graphql-spring-boot-starter:5.0.2'
+    implementation 'com.graphql-java:graphql-java-extended-scalars:17.0'
 
     // MICROSERVICE 
     // implementation platform("org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}")

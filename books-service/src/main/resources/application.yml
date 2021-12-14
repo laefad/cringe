@@ -19,6 +19,15 @@ spring:
     password: ${POSTGRESBD_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
+  graphql:
+    # extended-scalars: Date
+    schema:
+      printer:
+        enabled: true
+    graphiql:
+      mapping: /graphiql
+      enabled: true
+
   jpa:
     # hibernate:
     #   ddl-auto: create-drop

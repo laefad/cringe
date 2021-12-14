@@ -1,5 +1,7 @@
 package book_service.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,5 +37,10 @@ public class TagService {
 
         tagRepository.delete(tag);
         return tag;
+    }
+
+    @Transactional(readOnly = true)
+    public List<Tag> getAll() {
+        return tagRepository.findAll();
     }
 }

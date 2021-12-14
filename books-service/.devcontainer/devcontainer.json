@@ -25,7 +25,8 @@
 	"extensions": [
 		"vscjava.vscode-java-pack",
 		"gabrielbb.vscode-lombok",
-		"richardwillis.vscode-gradle-extension-pack"
+		"richardwillis.vscode-gradle-extension-pack",
+		"graphql.vscode-graphql"
 	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
