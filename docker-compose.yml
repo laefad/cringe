@@ -156,6 +156,35 @@ services:
           memory: 500M
     ports:
       - 8989:8000
+  
+  books-service:
+    image: laefad/bookservice-books-service
+    container_name: books-service
+    build:
+      context: .
+      target: prod
+      dockerfile: ./books-service/Dockerfile
+    restart: always
+    ports:
+      - 8000:8000
+    environment:
+      POSTGRESBD_USERNAME: $POSTGRESBD_USERNAME
+      POSTGRESBD_PASSWORD: $POSTGRESBD_PASSWORD
+      POSTGRESBD_URL: $POSTGRESBD_URL
+      # CONFIG_SERVICE_ADDRESS: $CONFIG_SERVICE_ADDRESS
+      # CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+      # CONFIG_SERVICE_USER: $CONFIG_SERVICE_USER
+      # GRAPHQL_BOOKS_SERVICE_PASSWORD: $GRAPHQL_BOOKS_SERVICE_PASSWORD
+    depends_on:
+      # config:
+      #   condition: service_healthy
+      postgres:
+        condition: service_started
+    deploy:
+      resources:
+        limits:
+          cpus: '0.3'
+          memory: 500M
 
   graphql-books-service:
     image: laefad/bookservice-graphql-books-service
@@ -188,6 +217,7 @@ services:
     container_name: postgres
     image: postgres:latest
     volumes: 
+      - ./postgres:/docker-entrypoint-initdb.d
       - postgres-source:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: $POSTGRESBD_USERNAME
@@ -201,6 +231,8 @@ services:
         limits:
           cpus: '0.3'
           memory: 500M
+
+  
 
 volumes:
   postgres-source:
