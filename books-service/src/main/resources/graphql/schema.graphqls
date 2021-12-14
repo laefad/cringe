@@ -33,8 +33,8 @@ type Book {
     publicationDate: Date
     authors: [Author!]
     usersBookDetails: [UserBookDetails!]!
-    path: String!
     tagLists: [TagList!]
+    tags: [Tag!]
 }
 
 type Tag {
@@ -44,6 +44,15 @@ type Tag {
 
 input TagCreateInput {
     name: String!
+}
+
+input BookCreateInput {
+    username: String!
+    name: String!
+    description: String
+    publicationDate: Date
+    authorIds: [ID!]
+    tagIds: [ID!]
 }
 
 # input TagListInput {
@@ -57,14 +66,6 @@ input TagCreateInput {
 #     bookId: ID!
 # }
 
-###################
-# Book
-###################
-
-# type BookQuery {
-#     getAll(): [Book!]
-# }
-
 # type Query {
 #     getUserByLogin(login: String!): User
 #     getUser(id: ID!): User
@@ -74,12 +75,21 @@ type Query {
     # TAG 
     getTag(tagId: ID!): Tag
     getAllTags: [Tag!]
+    # BOOK 
+    getAllBooks: [Book!]
+    getBook(bookId: ID!): Book
+    # AUTHOR
+    getAllAuthors: [Autho!]
 }
 
 type Mutation {
     # TAG
     deleteTag(tagId: ID!): Tag
     createTag(input: TagCreateInput!): Tag
+    # BOOK
+    createBook(input: BookCreateInput!): Book
+    deleteBook(bookId: ID!): Book
+    # AUTHOR
 }
 
 scalar Date

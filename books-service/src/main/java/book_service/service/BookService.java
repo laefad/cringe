@@ -1,5 +1,7 @@
 package book_service.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +29,11 @@ public class BookService {
     @Transactional(readOnly = true)
     public Book getBookById(long id) {
         return bookRepository.findById(id).orElse(null);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Book> getAll() {
+        return bookRepository.findAll();
     }
 
     @Transactional

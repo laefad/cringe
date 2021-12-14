@@ -23,6 +23,11 @@ public class TagService {
         return tagRepository.findById(id).orElse(null);
     }
 
+    @Transactional(readOnly = true)
+    public Tag findTagByName(String name) {
+        return tagRepository.findByName(name).orElse(null);
+    }
+
     @Transactional
     public Tag saveTag(Tag tag) {
         return tagRepository.save(tag);
