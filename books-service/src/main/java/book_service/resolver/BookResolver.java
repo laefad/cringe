@@ -1,5 +1,7 @@
 package book_service.resolver;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -56,7 +58,7 @@ public class BookResolver {
         if (userBookDetails == null)
             return null; // TODO add error 
 
-        Set<Author> authors = null;
+        Set<Author> authors = new HashSet<>();
 
         if (input.getAuthorIds() != null)
             authors = input.getAuthorIds().stream()
@@ -64,7 +66,7 @@ public class BookResolver {
                     .filter(Objects::nonNull)
                     .collect(Collectors.toSet());
 
-        Set<Tag> tags = null;
+        Set<Tag> tags = new HashSet<>();
 
         if (input.getTagIds() != null)
             tags = input.getTagIds().stream()
@@ -81,6 +83,7 @@ public class BookResolver {
                         .publicationDate(input.getPublicationDate())
                         .tags(tags)
                         .authors(authors)
+                        .tagsMap(new HashMap<>())
                         .build();
 
         return bookService.saveBook(book);

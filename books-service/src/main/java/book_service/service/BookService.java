@@ -66,10 +66,6 @@ public class BookService {
             return null; // TODO add error
 
         book.getAuthors().add(author);
-
-        // TODO remove ?
-        // author.getBooks().add(book);
-        // authorService.saveAuthor(author);
         
         return bookRepository.save(book);
     }

@@ -1,5 +1,7 @@
 package book_service.service;
 
+import java.util.HashSet;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,6 +55,7 @@ public class TagListService {
                          .tagListId(tagListId)
                          .user(userBookDetails)
                          .book(book)
+                         .tags(new HashSet<>())
                          .build();
 
         return tagListRepository.save(tagList);
@@ -77,6 +80,7 @@ public class TagListService {
                          .tagListId(tagListId)
                          .user(userBookDetails)
                          .book(book)
+                         .tags(new HashSet<>())
                          .build();
 
         return tagListRepository.save(tagList);
@@ -125,6 +129,9 @@ public class TagListService {
     }
 
     public TagListId createTagListId(String username, long bookId) {
-        return TagListId.builder().bookId(bookId).username(username).build();
+        return TagListId.builder()
+                        .bookId(bookId)
+                        .username(username)
+                        .build();
     }
 }

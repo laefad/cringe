@@ -55,6 +55,26 @@ input BookCreateInput {
     tagIds: [ID!]
 }
 
+input BookAddToUserInput {
+    username: String!
+    bookId: ID!
+}
+
+input BookRemoveFromUserInput {
+    username: String!
+    bookId: ID!
+}
+
+input AuthorCreateInput {
+    name: String!
+    surname: String!
+    middlename: String
+    description: String
+    birthDate: Date
+    deathDate: Date
+    bookIds: [ID!]
+}
+
 # input TagListInput {
 #     username: String!
 #     bookId: ID!
@@ -66,30 +86,41 @@ input BookCreateInput {
 #     bookId: ID!
 # }
 
-# type Query {
-#     getUserByLogin(login: String!): User
-#     getUser(id: ID!): User
-# }
-
 type Query {
     # TAG 
     getTag(tagId: ID!): Tag
     getAllTags: [Tag!]
+
     # BOOK 
-    getAllBooks: [Book!]
     getBook(bookId: ID!): Book
+    getAllBooks: [Book!]
+
     # AUTHOR
-    getAllAuthors: [Autho!]
+    getAuthor(authorId: ID!): Author
+    getAllAuthors: [Author!]
+
+    # USER_BOOK_DETAILS
+    getUserBookDetails(username: String!): UserBookDetails
+    getAllUserBookDetails: [UserBookDetails!]
 }
 
 type Mutation {
     # TAG
-    deleteTag(tagId: ID!): Tag
     createTag(input: TagCreateInput!): Tag
+    deleteTag(tagId: ID!): Tag
+
     # BOOK
     createBook(input: BookCreateInput!): Book
     deleteBook(bookId: ID!): Book
+
     # AUTHOR
+    createAuthor(input: AuthorCreateInput!): Author
+    deleteAuthor(authorId: ID!): Author
+
+    # USER_BOOK_DETAILS
+    deleteUserBookDetails(username: String!): UserBookDetails
+    addBookToUser(input: BookAddToUserInput!): UserBookDetails
+    removeBookFromUser(input: BookRemoveFromUserInput!): UserBookDetails
 }
 
 scalar Date
