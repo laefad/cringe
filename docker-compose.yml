@@ -48,7 +48,7 @@ services:
       POSTGRESBD_USERNAME: $POSTGRESBD_USERNAME
       POSTGRESBD_PASSWORD: $POSTGRESBD_PASSWORD
       POSTGRESBD_URL: $POSTGRESBD_URL
-      GRAPHQL_BOOKS_SERVICE_PASSWORD: $GRAPHQL_BOOKS_SERVICE_PASSWORD
+      BOOKS_SERVICE_PASSWORD: $BOOKS_SERVICE_PASSWORD
     restart: always
     depends_on:
       config:
@@ -174,38 +174,11 @@ services:
       # CONFIG_SERVICE_ADDRESS: $CONFIG_SERVICE_ADDRESS
       # CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
       # CONFIG_SERVICE_USER: $CONFIG_SERVICE_USER
-      # GRAPHQL_BOOKS_SERVICE_PASSWORD: $GRAPHQL_BOOKS_SERVICE_PASSWORD
+      # BOOKS_SERVICE_PASSWORD: $BOOKS_SERVICE_PASSWORD
     depends_on:
       # config:
       #   condition: service_healthy
       postgres:
-        condition: service_started
-    deploy:
-      resources:
-        limits:
-          cpus: '0.3'
-          memory: 500M
-
-  graphql-books-service:
-    image: laefad/bookservice-graphql-books-service
-    container_name: graphql-books-service
-    build:
-      context: .
-      target: prod
-      dockerfile: ./graphql-books-service/Dockerfile
-    restart: always
-    environment:
-      POSTGRESBD_USERNAME: $POSTGRESBD_USERNAME
-      POSTGRESBD_PASSWORD: $POSTGRESBD_PASSWORD
-      POSTGRESBD_URL: $POSTGRESBD_URL
-      CONFIG_SERVICE_ADDRESS: $CONFIG_SERVICE_ADDRESS
-      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
-      CONFIG_SERVICE_USER: $CONFIG_SERVICE_USER
-      GRAPHQL_BOOKS_SERVICE_PASSWORD: $GRAPHQL_BOOKS_SERVICE_PASSWORD
-    depends_on:
-      config:
-        condition: service_healthy
-      postgres: 
         condition: service_started
     deploy:
       resources:

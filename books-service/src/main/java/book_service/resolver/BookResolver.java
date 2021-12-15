@@ -17,6 +17,8 @@ import book_service.model.Author;
 import book_service.model.Book;
 import book_service.model.Tag;
 import book_service.model.UserBookDetails;
+import book_service.model.input.book.BookAuthorAddInput;
+import book_service.model.input.book.BookAuthorRemoveInput;
 import book_service.model.input.book.BookCreateInput;
 import book_service.service.AuthorService;
 import book_service.service.BookService;
@@ -51,7 +53,9 @@ public class BookResolver {
     @MutationMapping
     public Book createBook(@Argument BookCreateInput input) {
 
-        //TODO catch error
+        // TODO replace to service ??
+
+        // TODO catch error
         UserBookDetails userBookDetails = 
                 userBookDetailsService.getOrCreateByUsername(input.getUsername()); // TODO replace to only get
 
@@ -92,5 +96,21 @@ public class BookResolver {
     @MutationMapping
     public Book deleteBook(@Argument long bookId) {
         return bookService.deleteBookById(bookId);
+    }
+
+    @MutationMapping
+    public Book addAuthorToBook(@Argument BookAuthorAddInput input) {
+        return bookService.addAuthorToBookById(
+            input.getBookId(), 
+            input.getAuthorId()
+        );
+    }
+
+    @MutationMapping
+    public Book removeAuthorFromBook(@Argument BookAuthorRemoveInput input) {
+        return bookService.removeAuthorFromBookById(
+            input.getBookId(), 
+            input.getAuthorId()
+        );
     }
 }

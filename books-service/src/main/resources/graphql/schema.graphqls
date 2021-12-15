@@ -65,6 +65,16 @@ input BookRemoveFromUserInput {
     bookId: ID!
 }
 
+input BookAuthorAddInput {
+    bookId: ID!
+    authorId: ID!
+}
+
+input BookAuthorRemoveInput {
+    bookId: ID!
+    authorId: ID!
+}
+
 input AuthorCreateInput {
     name: String!
     surname: String!
@@ -108,19 +118,28 @@ type Mutation {
     # TAG
     createTag(input: TagCreateInput!): Tag
     deleteTag(tagId: ID!): Tag
+    # changeTagName
 
     # BOOK
     createBook(input: BookCreateInput!): Book
     deleteBook(bookId: ID!): Book
+    addAuthorToBook(input: BookAuthorAddInput!): Book
+    removeAuthorFromBook(input: BookAuthorRemoveInput!): Book
+    # addTagToBook
+    # removeTagFromBook
+    # TODO add book changes
 
     # AUTHOR
     createAuthor(input: AuthorCreateInput!): Author
     deleteAuthor(authorId: ID!): Author
+    # TODO add author changes
 
     # USER_BOOK_DETAILS
     deleteUserBookDetails(username: String!): UserBookDetails
     addBookToUser(input: BookAddToUserInput!): UserBookDetails
     removeBookFromUser(input: BookRemoveFromUserInput!): UserBookDetails
+    # addUserTagToBook
+    # removeUserTagFromBook
 }
 
 scalar Date

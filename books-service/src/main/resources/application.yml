@@ -6,8 +6,8 @@ server:
 # security:
 #   oauth2:
 #     client:
-#       clientId: qraphql-books-service
-#       clientSecret: ${GRAPHQL_BOOKS_SERVICE_PASSWORD}
+#       clientId: books-service
+#       clientSecret: ${BOOKS_SERVICE_PASSWORD}
 #       accessTokenUri: http://auth-service:8000/uaa/oauth/token
 #       grant-type: client_credentials
 #       scope: server
@@ -20,7 +20,6 @@ spring:
     driver-class-name: org.postgresql.Driver
 
   graphql:
-    # extended-scalars: Date
     schema:
       printer:
         enabled: true
@@ -29,19 +28,15 @@ spring:
       enabled: true
 
   jpa:
-    # hibernate:
-    #   ddl-auto: create-drop
-    #   hbm2ddl:  
-    #     auto: create-drop
     show-sql: true
-    properties:
-      javax:
-        persistence:
-          schema-generation:
-            scripts:
-              action: create
-              create-target: create.sql
-              create-source: metadata
+    # properties:
+    #   javax:
+    #     persistence:
+    #       schema-generation:
+    #         scripts:
+    #           action: create
+    #           create-target: create.sql
+    #           create-source: metadata
 
 
 management:

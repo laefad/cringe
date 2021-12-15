@@ -1,4 +1,4 @@
-package book_service.model.input;
+package book_service.model.input.book;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -10,7 +10,7 @@ import lombok.experimental.FieldDefaults;
 @Getter
 @Setter
 @ToString
-public class UserInput {
-    String login;
-    String password;
+public class BookAuthorAddInput {
+    long bookId;
+    long authorId;
 }
