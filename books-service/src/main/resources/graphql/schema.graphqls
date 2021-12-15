@@ -75,6 +75,16 @@ input BookAuthorRemoveInput {
     authorId: ID!
 }
 
+input BookTagAddInput {
+    bookId: ID!
+    tagId: ID!
+}
+
+input BookTagRemoveInput {
+    bookId: ID!
+    tagId: ID!
+}
+
 input AuthorCreateInput {
     name: String!
     surname: String!
@@ -85,16 +95,17 @@ input AuthorCreateInput {
     bookIds: [ID!]
 }
 
-# input TagListInput {
-#     username: String!
-#     bookId: ID!
-#     name: String!
-# }
+input TagListAddInput {
+    username: String!
+    bookId: ID!
+    tagId: ID!
+}
 
-# input TagListInput {
-#     username: String!
-#     bookId: ID!
-# }
+input TagListRemoveInput {
+    username: String!
+    bookId: ID!
+    tagId: ID!
+}
 
 type Query {
     # TAG 
@@ -125,8 +136,8 @@ type Mutation {
     deleteBook(bookId: ID!): Book
     addAuthorToBook(input: BookAuthorAddInput!): Book
     removeAuthorFromBook(input: BookAuthorRemoveInput!): Book
-    # addTagToBook
-    # removeTagFromBook
+    addTagToBook(input: BookTagAddInput!): Book
+    removeTagFromBook(input: BookTagRemoveInput!): Book
     # TODO add book changes
 
     # AUTHOR
@@ -138,8 +149,10 @@ type Mutation {
     deleteUserBookDetails(username: String!): UserBookDetails
     addBookToUser(input: BookAddToUserInput!): UserBookDetails
     removeBookFromUser(input: BookRemoveFromUserInput!): UserBookDetails
-    # addUserTagToBook
-    # removeUserTagFromBook
+
+    # USER_TAG_LIST
+    addUserTagToBook(input: TagListAddInput!): TagList
+    removeUserTagFromBook(input: TagListRemoveInput!): TagList
 }
 
 scalar Date

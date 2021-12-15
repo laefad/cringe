@@ -20,6 +20,8 @@ import book_service.model.UserBookDetails;
 import book_service.model.input.book.BookAuthorAddInput;
 import book_service.model.input.book.BookAuthorRemoveInput;
 import book_service.model.input.book.BookCreateInput;
+import book_service.model.input.book.BookTagAddInput;
+import book_service.model.input.book.BookTagRemoveInput;
 import book_service.service.AuthorService;
 import book_service.service.BookService;
 import book_service.service.TagService;
@@ -111,6 +113,22 @@ public class BookResolver {
         return bookService.removeAuthorFromBookById(
             input.getBookId(), 
             input.getAuthorId()
+        );
+    }
+
+    @MutationMapping
+    public Book addTagToBook(@Argument BookTagAddInput input) {
+        return bookService.addTagToBookTagList(
+            input.getBookId(), 
+            input.getTagId()
+        );
+    }
+
+    @MutationMapping
+    public Book removeTagFromBook(@Argument BookTagRemoveInput input) {
+        return bookService.removeTagFromBookTagList(
+            input.getBookId(), 
+            input.getTagId()
         );
     }
 }
