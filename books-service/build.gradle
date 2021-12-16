@@ -22,7 +22,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    // implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
 
     implementation 'org.springframework.boot:spring-boot-starter-json'
 
@@ -36,21 +36,21 @@ dependencies {
     implementation 'com.graphql-java:graphql-java-extended-scalars:17.0'
 
     // MICROSERVICE 
-    // implementation platform("org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}")
+    implementation platform("org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}")
 
-    // implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
-    // implementation 'org.springframework.cloud:spring-cloud-starter-config'
-    // implementation 'org.springframework.cloud:spring-cloud-config-client'
+    implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
+    implementation 'org.springframework.cloud:spring-cloud-starter-config'
+    implementation 'org.springframework.cloud:spring-cloud-config-client'
     
-    // implementation 'org.springframework.cloud:spring-cloud-starter-oauth2:2.2.5.RELEASE'
+    implementation 'org.springframework.cloud:spring-cloud-starter-oauth2:2.2.5.RELEASE'
 
-    // implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
-    // implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
-    // implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
-    // implementation 'org.springframework.cloud:spring-cloud-starter-bus-amqp'
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+    implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
+    implementation 'org.springframework.cloud:spring-cloud-starter-bus-amqp'
 
-    // implementation "org.springframework.cloud:spring-cloud-starter-netflix-hystrix:${hystrixVersion}"
-    // // implementation 'org.springframework.cloud:spring-cloud-netflix-hystrix-stream:2.2.10.RELEASE'
+    implementation "org.springframework.cloud:spring-cloud-starter-netflix-hystrix:${hystrixVersion}"
+    // implementation 'org.springframework.cloud:spring-cloud-netflix-hystrix-stream:2.2.10.RELEASE'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
