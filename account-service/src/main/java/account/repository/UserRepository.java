@@ -1,6 +1,6 @@
-package auth.repository;
+package account.repository;
 
-import auth.model.User;
+import account.model.User;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

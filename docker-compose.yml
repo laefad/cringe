@@ -32,6 +32,35 @@ services:
           cpus: '0.3'
           memory: 500M
 
+  account-service:
+    image: laefad/bookservice-account-service
+    container_name: account-service
+    build:
+      context: .
+      target: prod
+      dockerfile: ./account-service/Dockerfile
+    ports:
+      - 5000:8000
+    environment:
+      CONFIG_SERVICE_ADDRESS: $CONFIG_SERVICE_ADDRESS
+      CONFIG_SERVICE_USER: $CONFIG_SERVICE_USER
+      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+      POSTGRESBD_USERNAME: $POSTGRES_USERS_ACCOUNT_USERNAME
+      POSTGRESBD_PASSWORD: $POSTGRES_USERS_ACCOUNT_PASSWORD
+      POSTGRESBD_URL: $POSTGRES_USERS_ACCOUNT_URL
+      ACCOUNT_SERVICE_PASSWORD: $ACCOUNT_SERVICE_PASSWORD
+    restart: always
+    depends_on:
+      config:
+        condition: service_healthy
+      postgres-users-account: 
+        condition: service_started
+    deploy:
+      resources:
+        limits:
+          cpus: '0.3'
+          memory: 500M
+
   auth-service:
     image: laefad/bookservice-auth-service
     container_name: auth-service
@@ -45,15 +74,16 @@ services:
       CONFIG_SERVICE_ADDRESS: $CONFIG_SERVICE_ADDRESS
       CONFIG_SERVICE_USER: $CONFIG_SERVICE_USER
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
-      POSTGRESBD_USERNAME: $POSTGRESBD_USERNAME
-      POSTGRESBD_PASSWORD: $POSTGRESBD_PASSWORD
-      POSTGRESBD_URL: $POSTGRESBD_URL
+      POSTGRESBD_USERNAME: $POSTGRES_USERS_AUTH_USERNAME
+      POSTGRESBD_PASSWORD: $POSTGRES_USERS_AUTH_PASSWORD
+      POSTGRESBD_URL: $POSTGRES_USERS_AUTH_URL
       BOOKS_SERVICE_PASSWORD: $BOOKS_SERVICE_PASSWORD
+      ACCOUNT_SERVICE_PASSWORD: $ACCOUNT_SERVICE_PASSWORD
     restart: always
     depends_on:
       config:
         condition: service_healthy
-      postgres: 
+      postgres-users-auth: 
         condition: service_started
     deploy:
       resources:
@@ -171,13 +201,13 @@ services:
       POSTGRESBD_USERNAME: $POSTGRESBD_USERNAME
       POSTGRESBD_PASSWORD: $POSTGRESBD_PASSWORD
       POSTGRESBD_URL: $POSTGRESBD_URL
-      # CONFIG_SERVICE_ADDRESS: $CONFIG_SERVICE_ADDRESS
-      # CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
-      # CONFIG_SERVICE_USER: $CONFIG_SERVICE_USER
-      # BOOKS_SERVICE_PASSWORD: $BOOKS_SERVICE_PASSWORD
+      CONFIG_SERVICE_ADDRESS: $CONFIG_SERVICE_ADDRESS
+      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+      CONFIG_SERVICE_USER: $CONFIG_SERVICE_USER
+      BOOKS_SERVICE_PASSWORD: $BOOKS_SERVICE_PASSWORD
     depends_on:
-      # config:
-      #   condition: service_healthy
+      config:
+        condition: service_healthy
       postgres:
         condition: service_started
     deploy:
@@ -197,17 +227,52 @@ services:
       POSTGRES_PASSWORD: $POSTGRESBD_PASSWORD
       POSTGRES_DB: $POSTGRES_DB
       PGPASSWORD: $POSTGRESBD_PASSWORD
-    ports:
-      - 5432:5432
     deploy:
       resources:
         limits:
           cpus: '0.3'
           memory: 500M
 
-  
+  postgres-users-auth:
+    container_name: postgres-users-auth
+    image: postgres:latest
+    volumes: 
+      - ./postgres-users-auth:/docker-entrypoint-initdb.d
+      - postgres-users-auth-source:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: $POSTGRES_USERS_AUTH_USERNAME
+      POSTGRES_PASSWORD: $POSTGRES_USERS_AUTH_PASSWORD
+      POSTGRES_DB: $POSTGRES_USERS_AUTH_DB
+      PGPASSWORD: $POSTGRES_USERS_AUTH_PASSWORD
+    deploy:
+      resources:
+        limits:
+          cpus: '0.3'
+          memory: 500M
+
+  postgres-users-account:
+    container_name: postgres-users-account
+    image: postgres:latest
+    volumes: 
+      - ./postgres-users-account:/docker-entrypoint-initdb.d
+      - postgres-users-account-source:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: $POSTGRES_USERS_ACCOUNT_USERNAME
+      POSTGRES_PASSWORD: $POSTGRES_USERS_ACCOUNT_PASSWORD
+      POSTGRES_DB: $POSTGRES_USERS_ACCOUNT_DB
+      PGPASSWORD: $POSTGRES_USERS_ACCOUNT_PASSWORD
+    deploy:
+      resources:
+        limits:
+          cpus: '0.3'
+          memory: 500M
 
 volumes:
   postgres-source:
     name: postgres-source
+  postgres-users-auth-source:
+    name: postgres-users-auth-source
+  postgres-users-account-source:
+    name: postgres-users-account-source
+  
     
