@@ -2,6 +2,7 @@ package account.service;
 
 import account.client.AuthServiceClient;
 import account.model.User;
+import account.model.UserInput;
 import account.repository.UserRepository;
 
 import lombok.AccessLevel;
@@ -21,14 +22,18 @@ public class UserServiceImpl implements UserService {
 	AuthServiceClient authServiceClient;
 
 	@Override
-	public User create(User user) {
+	public User create(UserInput userInput) {
 
-		User u = userRepository.findByUsername(user.getUsername());
+		User user = userRepository.findByUsername(userInput.getUsername());
 
-		if (u != null)
-			throw new IllegalArgumentException("user already exists: " + user.getUsername());
+		if (user != null)
+			throw new IllegalArgumentException("user already exists: " + userInput.getUsername());
 
-		authServiceClient.createUser(user);
+		user = User.builder()
+		           .username(userInput.getUsername())
+				   .build();
+		
+		authServiceClient.createUser(userInput);
 		return userRepository.save(user);
 	}
 

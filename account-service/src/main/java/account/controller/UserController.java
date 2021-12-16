@@ -1,6 +1,7 @@
 package account.controller;
 
 import account.model.User;
+import account.model.UserInput;
 import account.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +46,7 @@ public class UserController {
 
 	@PostMapping(path = "/")
 	public User createNewAccount(
-		@Valid @RequestBody User user
+		@Valid @RequestBody UserInput user
 	) {
 		return userService.create(user);
 	}
