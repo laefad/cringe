@@ -39,8 +39,8 @@ services:
       context: .
       target: prod
       dockerfile: ./account-service/Dockerfile
-    ports:
-      - 5000:8000
+    # ports:
+    #   - 5656:8000
     environment:
       CONFIG_SERVICE_ADDRESS: $CONFIG_SERVICE_ADDRESS
       CONFIG_SERVICE_USER: $CONFIG_SERVICE_USER
@@ -68,8 +68,8 @@ services:
       context: .
       target: prod
       dockerfile: ./auth-service/Dockerfile
-    ports:
-      - 5000:8000
+    # ports:
+    #   - 5000:8000
     environment:
       CONFIG_SERVICE_ADDRESS: $CONFIG_SERVICE_ADDRESS
       CONFIG_SERVICE_USER: $CONFIG_SERVICE_USER
