@@ -20,8 +20,11 @@ buildSrc/
 **/*.classpath
 **/*.settings
 
-#??
+# vs code java 
 bin/
+
+# vs code 
+.vscode/
 
 #temp files 
 temp/
