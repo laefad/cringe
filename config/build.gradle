@@ -13,12 +13,14 @@ group = 'com.laefad'
 version = '0.0.1'
 
 dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    
+    // MICROSERVICE 
     implementation platform("org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}")
 
     implementation 'org.springframework.cloud:spring-cloud-starter-config'
     implementation 'org.springframework.cloud:spring-cloud-config-server'
-    // implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap:3.0.3'
-    implementation 'org.springframework.boot:spring-boot-starter-security'
 }
 
 application {

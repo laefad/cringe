@@ -5,6 +5,7 @@ spring:
         git:
           uri: https://github.com/laefad/configuration_repository
           skipSslValidation: true
+          default-label: master
   security:
     user:
       name: ${CONFIG_SERVICE_USER}
@@ -12,4 +13,3 @@ spring:
 
 server:
   port: 8000
-

@@ -4,7 +4,7 @@ import auth.model.User;
 import auth.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
+// import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,7 +26,7 @@ public class UserController {
 		return principal;
 	}
 
-	@PreAuthorize("#oauth2.hasScope('server')")
+	// @PreAuthorize("#oauth2.hasScope('server')")
 	@PostMapping
 	public void createUser(
 		@Valid @RequestBody User user
