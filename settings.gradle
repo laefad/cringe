@@ -8,16 +8,3 @@ pluginManagement {
 }
 
 rootProject.name = 'bookservice'
-
-// include(':config')
-// include(':account-service')
-// include(':auth-service')
-// include(':registry')
-
-// include(':gateway')
-
-// include(':graphql-books-service')
-
-// include(':monitoring')
-// include(':turbine-stream-service')
-// include(':statistics-service')
