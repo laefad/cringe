@@ -1,4 +1,11 @@
-version: '3'
+version: '3.8'
+
+x-deploy:
+  &default-deploy
+  resources:
+    limits:
+      cpus: '0.3'
+      memory: 500M
 
 services:
   rabbitmq:
@@ -7,11 +14,7 @@ services:
     restart: always
     ports:
       - 15672:15672
-    deploy:
-      resources:
-        limits:
-          cpus: '0.3'
-          memory: 500M
+    deploy: *default-deploy
 
   config:
     image: laefad/bookservice-config
@@ -26,11 +29,7 @@ services:
       CONFIG_SERVICE_USER: $CONFIG_SERVICE_USER
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
     restart: always
-    deploy:
-      resources:
-        limits:
-          cpus: '0.3'
-          memory: 500M
+    deploy: *default-deploy
 
   account-service:
     image: laefad/bookservice-account-service
@@ -55,11 +54,7 @@ services:
         condition: service_healthy
       postgres-users-account: 
         condition: service_started
-    deploy:
-      resources:
-        limits:
-          cpus: '0.3'
-          memory: 500M
+    deploy: *default-deploy
 
   auth-service:
     image: laefad/bookservice-auth-service
@@ -85,11 +80,7 @@ services:
         condition: service_healthy
       postgres-users-auth: 
         condition: service_started
-    deploy:
-      resources:
-        limits:
-          cpus: '0.3'
-          memory: 500M
+    deploy: *default-deploy
 
   registry:
     image: laefad/bookservice-registry
@@ -108,11 +99,7 @@ services:
     depends_on:
       config:
         condition: service_healthy
-    deploy:
-      resources:
-        limits:
-          cpus: '0.3'
-          memory: 500M
+    deploy: *default-deploy
 
   gateway:
     image: laefad/bookservice-gateway
@@ -131,11 +118,7 @@ services:
     depends_on:
       config:
         condition: service_healthy
-    deploy:
-      resources:
-        limits:
-          cpus: '0.3'
-          memory: 500M
+    deploy: *default-deploy
 
   monitoring:
     image: laefad/bookservice-monitoring
@@ -156,11 +139,7 @@ services:
         condition: service_healthy
       turbine-stream-service: 
         condition: service_started
-    deploy:
-      resources:
-        limits:
-          cpus: '0.3'
-          memory: 500M
+    deploy: *default-deploy
 
   turbine-stream-service:
     image: laefad/bookservice-turbine-stream-service
@@ -179,11 +158,7 @@ services:
         condition: service_healthy
       rabbitmq: 
         condition: service_started
-    deploy:
-      resources:
-        limits:
-          cpus: '0.3'
-          memory: 500M
+    deploy: *default-deploy
     ports:
       - 8989:8000
   
@@ -210,11 +185,7 @@ services:
         condition: service_healthy
       postgres:
         condition: service_started
-    deploy:
-      resources:
-        limits:
-          cpus: '0.3'
-          memory: 500M
+    deploy: *default-deploy
 
   postgres:
     container_name: postgres
@@ -227,11 +198,7 @@ services:
       POSTGRES_PASSWORD: $POSTGRESBD_PASSWORD
       POSTGRES_DB: $POSTGRES_DB
       PGPASSWORD: $POSTGRESBD_PASSWORD
-    deploy:
-      resources:
-        limits:
-          cpus: '0.3'
-          memory: 500M
+    deploy: *default-deploy
 
   postgres-users-auth:
     container_name: postgres-users-auth
@@ -244,11 +211,7 @@ services:
       POSTGRES_PASSWORD: $POSTGRES_USERS_AUTH_PASSWORD
       POSTGRES_DB: $POSTGRES_USERS_AUTH_DB
       PGPASSWORD: $POSTGRES_USERS_AUTH_PASSWORD
-    deploy:
-      resources:
-        limits:
-          cpus: '0.3'
-          memory: 500M
+    deploy: *default-deploy
 
   postgres-users-account:
     container_name: postgres-users-account
@@ -261,11 +224,7 @@ services:
       POSTGRES_PASSWORD: $POSTGRES_USERS_ACCOUNT_PASSWORD
       POSTGRES_DB: $POSTGRES_USERS_ACCOUNT_DB
       PGPASSWORD: $POSTGRES_USERS_ACCOUNT_PASSWORD
-    deploy:
-      resources:
-        limits:
-          cpus: '0.3'
-          memory: 500M
+    deploy: *default-deploy
 
 volumes:
   postgres-source:
