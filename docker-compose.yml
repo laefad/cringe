@@ -16,6 +16,19 @@ services:
       - 15672:15672
     deploy: *default-deploy
 
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    container_name: keycloak
+    restart: always
+    ports:
+      - 5000:8080
+    depends_on:
+      postgres-keycloak: 
+        condition: service_started
+    env_file:
+      - env/service/keycloak.env
+    deploy: *default-deploy
+
   config:
     image: laefad/bookservice-config
     container_name: config
@@ -24,10 +37,9 @@ services:
       target: prod
       dockerfile: ./config/Dockerfile
     # ports:
-    #   - "${CONFIG_PORT}:8000"
-    environment:
-      CONFIG_SERVICE_USER: $CONFIG_SERVICE_USER
-      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+    #   - "8888:8000"
+    env_file:
+      - env/service/config.env
     restart: always
     deploy: *default-deploy
 
@@ -40,45 +52,14 @@ services:
       dockerfile: ./account-service/Dockerfile
     # ports:
     #   - 5656:8000
-    environment:
-      CONFIG_SERVICE_ADDRESS: $CONFIG_SERVICE_ADDRESS
-      CONFIG_SERVICE_USER: $CONFIG_SERVICE_USER
-      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
-      POSTGRESBD_USERNAME: $POSTGRES_USERS_ACCOUNT_USERNAME
-      POSTGRESBD_PASSWORD: $POSTGRES_USERS_ACCOUNT_PASSWORD
-      POSTGRESBD_URL: $POSTGRES_USERS_ACCOUNT_URL
-      ACCOUNT_SERVICE_PASSWORD: $ACCOUNT_SERVICE_PASSWORD
+    env_file:
+      - env/service/account.env
+      - env/client/config.env
     restart: always
     depends_on:
       config:
         condition: service_healthy
       postgres-users-account: 
-        condition: service_started
-    deploy: *default-deploy
-
-  auth-service:
-    image: laefad/bookservice-auth-service
-    container_name: auth-service
-    build:
-      context: .
-      target: prod
-      dockerfile: ./auth-service/Dockerfile
-    # ports:
-    #   - 5000:8000
-    environment:
-      CONFIG_SERVICE_ADDRESS: $CONFIG_SERVICE_ADDRESS
-      CONFIG_SERVICE_USER: $CONFIG_SERVICE_USER
-      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
-      POSTGRESBD_USERNAME: $POSTGRES_USERS_AUTH_USERNAME
-      POSTGRESBD_PASSWORD: $POSTGRES_USERS_AUTH_PASSWORD
-      POSTGRESBD_URL: $POSTGRES_USERS_AUTH_URL
-      BOOKS_SERVICE_PASSWORD: $BOOKS_SERVICE_PASSWORD
-      ACCOUNT_SERVICE_PASSWORD: $ACCOUNT_SERVICE_PASSWORD
-    restart: always
-    depends_on:
-      config:
-        condition: service_healthy
-      postgres-users-auth: 
         condition: service_started
     deploy: *default-deploy
 
@@ -92,10 +73,8 @@ services:
     restart: always
     ports:
       - 8761:8000
-    environment:
-      CONFIG_SERVICE_ADDRESS: $CONFIG_SERVICE_ADDRESS
-      CONFIG_SERVICE_USER: $CONFIG_SERVICE_USER
-      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+    env_file:
+      - env/client/config.env
     depends_on:
       config:
         condition: service_healthy
@@ -111,10 +90,8 @@ services:
     restart: always
     ports:
       - 80:8000
-    environment:
-      CONFIG_SERVICE_ADDRESS: $CONFIG_SERVICE_ADDRESS
-      CONFIG_SERVICE_USER: $CONFIG_SERVICE_USER
-      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+    env_file:
+      - env/client/config.env
     depends_on:
       config:
         condition: service_healthy
@@ -130,10 +107,8 @@ services:
     restart: always
     ports:
       - 9000:8000
-    environment:
-      CONFIG_SERVICE_ADDRESS: $CONFIG_SERVICE_ADDRESS
-      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
-      CONFIG_SERVICE_USER: $CONFIG_SERVICE_USER
+    env_file:
+      - env/client/config.env
     depends_on:
       config:
         condition: service_healthy
@@ -149,10 +124,8 @@ services:
       target: prod
       dockerfile: ./turbine-stream-service/Dockerfile
     restart: always
-    environment:
-      CONFIG_SERVICE_ADDRESS: $CONFIG_SERVICE_ADDRESS
-      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
-      CONFIG_SERVICE_USER: $CONFIG_SERVICE_USER
+    env_file:
+      - env/client/config.env
     depends_on:
       config:
         condition: service_healthy
@@ -172,45 +145,24 @@ services:
     restart: always
     ports:
       - 8000:8000
-    environment:
-      POSTGRESBD_USERNAME: $POSTGRESBD_USERNAME
-      POSTGRESBD_PASSWORD: $POSTGRESBD_PASSWORD
-      POSTGRESBD_URL: $POSTGRESBD_URL
-      CONFIG_SERVICE_ADDRESS: $CONFIG_SERVICE_ADDRESS
-      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
-      CONFIG_SERVICE_USER: $CONFIG_SERVICE_USER
-      BOOKS_SERVICE_PASSWORD: $BOOKS_SERVICE_PASSWORD
+    env_file:
+      - env/client/config.env
+      - env/service/books.env
     depends_on:
       config:
         condition: service_healthy
-      postgres:
+      postgres-books:
         condition: service_started
     deploy: *default-deploy
 
-  postgres:
-    container_name: postgres
+  postgres-books:
+    container_name: postgres-books
     image: postgres:latest
     volumes: 
       - ./postgres:/docker-entrypoint-initdb.d
-      - postgres-source:/var/lib/postgresql/data
-    environment:
-      POSTGRES_USER: $POSTGRESBD_USERNAME
-      POSTGRES_PASSWORD: $POSTGRESBD_PASSWORD
-      POSTGRES_DB: $POSTGRES_DB
-      PGPASSWORD: $POSTGRESBD_PASSWORD
-    deploy: *default-deploy
-
-  postgres-users-auth:
-    container_name: postgres-users-auth
-    image: postgres:latest
-    volumes: 
-      - ./postgres-users-auth:/docker-entrypoint-initdb.d
-      - postgres-users-auth-source:/var/lib/postgresql/data
-    environment:
-      POSTGRES_USER: $POSTGRES_USERS_AUTH_USERNAME
-      POSTGRES_PASSWORD: $POSTGRES_USERS_AUTH_PASSWORD
-      POSTGRES_DB: $POSTGRES_USERS_AUTH_DB
-      PGPASSWORD: $POSTGRES_USERS_AUTH_PASSWORD
+      - postgres-books:/var/lib/postgresql/data
+    env_file:
+      - env/database/books.env
     deploy: *default-deploy
 
   postgres-users-account:
@@ -219,19 +171,24 @@ services:
     volumes: 
       - ./postgres-users-account:/docker-entrypoint-initdb.d
       - postgres-users-account-source:/var/lib/postgresql/data
-    environment:
-      POSTGRES_USER: $POSTGRES_USERS_ACCOUNT_USERNAME
-      POSTGRES_PASSWORD: $POSTGRES_USERS_ACCOUNT_PASSWORD
-      POSTGRES_DB: $POSTGRES_USERS_ACCOUNT_DB
-      PGPASSWORD: $POSTGRES_USERS_ACCOUNT_PASSWORD
+    env_file:
+      - env/database/account.env
+    deploy: *default-deploy
+
+  postgres-keycloak:
+    container_name: postgres-keycloak
+    image: postgres:latest
+    restart: always
+    env_file:
+      - env/database/keycloak.env
+    volumes:
+      - postgres-keycloak-source:/var/lib/postgresql/data
     deploy: *default-deploy
 
 volumes:
-  postgres-source:
-    name: postgres-source
-  postgres-users-auth-source:
-    name: postgres-users-auth-source
+  postgres-books:
+    name: postgres-books
   postgres-users-account-source:
     name: postgres-users-account-source
-  
-    
+  postgres-keycloak-source:
+    name: postgres-keycloak-source

@@ -1,5 +1,8 @@
 .git
 
+#ignore env files for security
+.env
+
 # ignore gradle
 .gradle
 gradle/**/*
