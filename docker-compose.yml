@@ -143,7 +143,7 @@ services:
     deploy: *default-deploy
     ports:
       - 8989:8000
-  
+
   books-service:
     image: laefad/bookservice-books-service
     container_name: books-service
@@ -169,8 +169,8 @@ services:
     container_name: postgres-books
     image: postgres:latest
     volumes: 
-      - ./postgres:/docker-entrypoint-initdb.d
-      - postgres-books:/var/lib/postgresql/data
+      - ./postgres-books:/docker-entrypoint-initdb.d
+      - postgres-books-source:/var/lib/postgresql/data
     env_file:
       - env/database/books.env
     deploy: *default-deploy
@@ -196,8 +196,8 @@ services:
     deploy: *default-deploy
 
 volumes:
-  postgres-books:
-    name: postgres-books
+  postgres-books-source:
+    name: postgres-books-source
   postgres-users-account-source:
     name: postgres-users-account-source
   postgres-keycloak-source:
