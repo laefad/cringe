@@ -27,7 +27,11 @@ services:
         condition: service_started
     env_file:
       - env/service/keycloak.env
-    deploy: *default-deploy
+    deploy:
+      << : *default-deploy
+      resources:
+        limits:
+          memory: 1000M
 
   config:
     image: laefad/bookservice-config
@@ -55,6 +59,7 @@ services:
     env_file:
       - env/service/account.env
       - env/client/config.env
+      - env/client/oauth2-resourceserver.env
     restart: always
     depends_on:
       config:
@@ -75,6 +80,7 @@ services:
       - 8761:8000
     env_file:
       - env/client/config.env
+      # - env/client/oauth2-resourceserver.env
     depends_on:
       config:
         condition: service_healthy
@@ -92,6 +98,7 @@ services:
       - 80:8000
     env_file:
       - env/client/config.env
+      # - env/client/oauth2-resourceserver.env
     depends_on:
       config:
         condition: service_healthy
@@ -109,6 +116,7 @@ services:
       - 9000:8000
     env_file:
       - env/client/config.env
+      # - env/client/oauth2-resourceserver.env
     depends_on:
       config:
         condition: service_healthy
@@ -126,6 +134,7 @@ services:
     restart: always
     env_file:
       - env/client/config.env
+      # - env/client/oauth2-resourceserver.env
     depends_on:
       config:
         condition: service_healthy
@@ -146,8 +155,9 @@ services:
     ports:
       - 8000:8000
     env_file:
-      - env/client/config.env
       - env/service/books.env
+      - env/client/config.env
+      - env/client/oauth2-resourceserver.env
     depends_on:
       config:
         condition: service_healthy
