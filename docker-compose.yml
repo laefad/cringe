@@ -47,27 +47,6 @@ services:
     restart: always
     deploy: *default-deploy
 
-  account-service:
-    image: laefad/bookservice-account-service
-    container_name: account-service
-    build:
-      context: .
-      target: prod
-      dockerfile: ./account-service/Dockerfile
-    # ports:
-    #   - 5656:8000
-    env_file:
-      - env/service/account.env
-      - env/client/config.env
-      - env/client/oauth2-resourceserver.env
-    restart: always
-    depends_on:
-      config:
-        condition: service_healthy
-      postgres-users-account: 
-        condition: service_started
-    deploy: *default-deploy
-
   registry:
     image: laefad/bookservice-registry
     container_name: registry
@@ -175,16 +154,6 @@ services:
       - env/database/books.env
     deploy: *default-deploy
 
-  postgres-users-account:
-    container_name: postgres-users-account
-    image: postgres:latest
-    volumes: 
-      - ./postgres-users-account:/docker-entrypoint-initdb.d
-      - postgres-users-account-source:/var/lib/postgresql/data
-    env_file:
-      - env/database/account.env
-    deploy: *default-deploy
-
   postgres-keycloak:
     container_name: postgres-keycloak
     image: postgres:latest
@@ -198,7 +167,5 @@ services:
 volumes:
   postgres-books-source:
     name: postgres-books-source
-  postgres-users-account-source:
-    name: postgres-users-account-source
   postgres-keycloak-source:
     name: postgres-keycloak-source
