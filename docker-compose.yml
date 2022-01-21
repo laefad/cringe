@@ -37,7 +37,6 @@ services:
       - 8000:8000
     env_file:
       - env/service/books.env
-      - env/client/config.env
       - env/client/oauth2-resourceserver.env
     depends_on:
       postgres-books:
@@ -47,11 +46,11 @@ services:
   postgres-books:
     container_name: postgres-books
     image: postgres:latest
+    env_file:
+      - env/database/books.env
     volumes: 
       - ./postgres-books:/docker-entrypoint-initdb.d
       - postgres-books-source:/var/lib/postgresql/data
-    env_file:
-      - env/database/books.env
     deploy: *default-deploy
 
   postgres-keycloak:
