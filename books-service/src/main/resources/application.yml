@@ -1,0 +1,53 @@
+logging:
+  level:
+    org.springframework.security: INFO
+
+server:
+  port: 8000
+
+spring:
+  application:
+    name: books-service
+    
+  datasource:
+    url: ${POSTGRESBD_URL}
+    username: ${POSTGRESBD_USERNAME}
+    password: ${POSTGRESBD_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  graphql:
+    schema:
+      printer:
+        enabled: true
+    graphiql:
+      mapping: /graphiql
+      enabled: true
+
+  jpa:
+    show-sql: true
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${OAUTH2_RESOURCESERVER_JWT_URI}
+          jwk-set-uri: ${OAUTH2_RESOURCESERVER_JWT_URI}
+      client:
+        provider:
+          keycloak:
+            issuer-uri: ${OAUTH2_PROVIDER_ISSUER_URI}
+        registration:
+          keycloak:
+            client-id: ${OAUTH2_REGISTRATION_CLIENT_ID}
+            client-secret: ${OAUTH2_REGISTRATION_CLIENT_SECRET}
+            client-authentication-method: client_secret_jwt
+            authorization-grant-type: client_credentials
+# TODO Check 
+  main:
+    allow-bean-definition-overriding: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

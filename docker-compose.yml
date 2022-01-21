@@ -8,14 +8,6 @@ x-deploy:
       memory: 500M
 
 services:
-  rabbitmq:
-    container_name: rabbitmq
-    image: rabbitmq:3-management
-    restart: always
-    ports:
-      - 15672:15672
-    deploy: *default-deploy
-
   keycloak:
     image: quay.io/keycloak/keycloak:latest
     container_name: keycloak
@@ -33,96 +25,6 @@ services:
         limits:
           memory: 1000M
 
-  config:
-    image: laefad/bookservice-config
-    container_name: config
-    build:
-      context: .
-      target: prod
-      dockerfile: ./config/Dockerfile
-    # ports:
-    #   - "8888:8000"
-    env_file:
-      - env/service/config.env
-    restart: always
-    deploy: *default-deploy
-
-  registry:
-    image: laefad/bookservice-registry
-    container_name: registry
-    build:
-      context: .
-      target: prod
-      dockerfile: ./registry/Dockerfile
-    restart: always
-    ports:
-      - 8761:8000
-    env_file:
-      - env/client/config.env
-      # - env/client/oauth2-resourceserver.env
-    depends_on:
-      config:
-        condition: service_healthy
-    deploy: *default-deploy
-
-  gateway:
-    image: laefad/bookservice-gateway
-    container_name: gateway
-    build:
-      context: .
-      target: prod
-      dockerfile: ./gateway/Dockerfile
-    restart: always
-    ports:
-      - 80:8000
-    env_file:
-      - env/client/config.env
-      # - env/client/oauth2-resourceserver.env
-    depends_on:
-      config:
-        condition: service_healthy
-    deploy: *default-deploy
-
-  monitoring:
-    image: laefad/bookservice-monitoring
-    container_name: monitoring
-    build:
-      context: .
-      target: prod
-      dockerfile: ./monitoring/Dockerfile
-    restart: always
-    ports:
-      - 9000:8000
-    env_file:
-      - env/client/config.env
-      # - env/client/oauth2-resourceserver.env
-    depends_on:
-      config:
-        condition: service_healthy
-      turbine-stream-service: 
-        condition: service_started
-    deploy: *default-deploy
-
-  turbine-stream-service:
-    image: laefad/bookservice-turbine-stream-service
-    container_name: turbine-stream-service
-    build:
-      context: .
-      target: prod
-      dockerfile: ./turbine-stream-service/Dockerfile
-    restart: always
-    env_file:
-      - env/client/config.env
-      # - env/client/oauth2-resourceserver.env
-    depends_on:
-      config:
-        condition: service_healthy
-      rabbitmq: 
-        condition: service_started
-    deploy: *default-deploy
-    ports:
-      - 8989:8000
-
   books-service:
     image: laefad/bookservice-books-service
     container_name: books-service
@@ -138,8 +40,6 @@ services:
       - env/client/config.env
       - env/client/oauth2-resourceserver.env
     depends_on:
-      config:
-        condition: service_healthy
       postgres-books:
         condition: service_started
     deploy: *default-deploy

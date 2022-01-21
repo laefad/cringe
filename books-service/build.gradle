@@ -29,17 +29,10 @@ dependencies {
     implementation 'org.postgresql:postgresql'
 
     //GRAPHQL 
+    // TODO move versions to properties
     implementation 'org.springframework.experimental:graphql-spring-boot-starter:1.0.0-M4'
     implementation 'com.graphql-java:graphql-spring-boot-starter:5.0.2'
     implementation 'com.graphql-java:graphql-java-extended-scalars:17.0'
-
-    // MICROSERVICE 
-    implementation platform("org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}")
-
-    // CONFIGURATION
-    implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
-    implementation 'org.springframework.cloud:spring-cloud-starter-config'
-    implementation 'org.springframework.cloud:spring-cloud-config-client'
     
     // OAUTH 2
     implementation 'org.springframework.security.oauth:spring-security-oauth2:2.5.0.RELEASE'
@@ -49,15 +42,6 @@ dependencies {
     // JWT
     implementation 'org.springframework.security:spring-security-oauth2-jose'
     // implementation 'org.springframework.security:spring-security-jwt:1.1.1.RELEASE'
-
-    // FEIGN AND OTHER 
-    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
-    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
-    implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
-    implementation 'org.springframework.cloud:spring-cloud-starter-bus-amqp'
-
-    implementation "org.springframework.cloud:spring-cloud-starter-netflix-hystrix:${hystrixVersion}"
-    // implementation 'org.springframework.cloud:spring-cloud-netflix-hystrix-stream:2.2.10.RELEASE'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
